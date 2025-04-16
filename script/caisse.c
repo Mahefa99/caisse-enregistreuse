@@ -1,16 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-
-// Déclaration des constantes pour les billets et pièces
-const double denominations[] = {2000, 1000, 500, 200, 100, 50, 25, 20, 10, 5, 1, 0.5, 0.2, 0.05};
-const int denomination_count = sizeof(denominations) / sizeof(denominations[0]);
-
-// Fonction pour générer un montant aléatoire
-double generate_random_amount() {
-    return (rand() % 100000) / 100.0; // Génère un montant entre 0 et 999.99
-}
-
 int main() {
     srand(time(NULL)); // Initialisation de la graine aléatoire
 
@@ -28,5 +15,20 @@ int main() {
         }
     } while (given_amount < amount_to_pay);
 
+    // Initialiser le tableau change
+    int change[denomination_count] = {};
+
+    // Calculer la monnaie à rendre
+    calcule_monnaie(amount_to_pay, given_amount, change);
+
+    // Afficher la monnaie à rendre
+    printf("Monnaie à rendre:\n");
+    for (int i = 0; i < denomination_count; i++) {
+        if (change[i] > 0) {
+            printf("%d x Rs%.2f\n", change[i], denominations[i]);
+        }
+    }
+
     return 0;
 }
+
